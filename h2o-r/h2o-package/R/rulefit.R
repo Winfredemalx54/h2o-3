@@ -31,6 +31,7 @@
 #'        well. During training, rows with higher weights matter more, due to the larger loss function pre-factor.
 #' @param distribution Distribution function Must be one of: "AUTO", "bernoulli", "multinomial", "gaussian", "poisson", "gamma",
 #'        "tweedie", "laplace", "quantile", "huber". Defaults to AUTO.
+#' @param rule_generation_ntrees specifies the number of trees to build in the tree model. Defaults to 50. Defaults to 50.
 #' @examples
 #' \dontrun{
 #' library(h2o)
@@ -57,7 +58,8 @@ h2o.rulefit <- function(x,
                         max_num_rules = -1,
                         model_type = c("rules_and_linear", "rules", "linear"),
                         weights_column = NULL,
-                        distribution = c("AUTO", "bernoulli", "multinomial", "gaussian", "poisson", "gamma", "tweedie", "laplace", "quantile", "huber"))
+                        distribution = c("AUTO", "bernoulli", "multinomial", "gaussian", "poisson", "gamma", "tweedie", "laplace", "quantile", "huber"),
+                        rule_generation_ntrees = 50)
 {
   # Validate required training_frame first and other frame args: should be a valid key or an H2OFrame object
   training_frame <- .validate.H2OFrame(training_frame, required=TRUE)
@@ -97,6 +99,8 @@ h2o.rulefit <- function(x,
     parms$weights_column <- weights_column
   if (!missing(distribution))
     parms$distribution <- distribution
+  if (!missing(rule_generation_ntrees))
+    parms$rule_generation_ntrees <- rule_generation_ntrees
 
   # Error check and build model
   model <- .h2o.modelJob('rulefit', parms, h2oRestApiVersion=3, verbose=FALSE)
@@ -113,6 +117,7 @@ h2o.rulefit <- function(x,
                                         model_type = c("rules_and_linear", "rules", "linear"),
                                         weights_column = NULL,
                                         distribution = c("AUTO", "bernoulli", "multinomial", "gaussian", "poisson", "gamma", "tweedie", "laplace", "quantile", "huber"),
+                                        rule_generation_ntrees = 50,
                                         segment_columns = NULL,
                                         segment_models_id = NULL,
                                         parallelism = 1)
@@ -157,6 +162,8 @@ h2o.rulefit <- function(x,
     parms$weights_column <- weights_column
   if (!missing(distribution))
     parms$distribution <- distribution
+  if (!missing(rule_generation_ntrees))
+    parms$rule_generation_ntrees <- rule_generation_ntrees
 
   # Build segment-models specific parameters
   segment_parms <- list()
