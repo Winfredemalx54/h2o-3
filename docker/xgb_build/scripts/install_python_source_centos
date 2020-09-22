@@ -5,7 +5,7 @@ set -ex
 VERSION_FULL=$1
 PATCH_FILE=$2
 VERSION_SHORT=$(echo ${VERSION_FULL} | head -c 3)
-${VERSION_NO_DOT=$(echo ${VERSION_SHORT} | tr -d .)
+VERSION_NO_DOT=$(echo ${VERSION_SHORT} | tr -d .)
 
 wget https://www.python.org/ftp/python/${VERSION_FULL}/Python-${VERSION_FULL}.tar.xz
 tar -xf Python-${VERSION_FULL}.tar.xz
@@ -15,9 +15,9 @@ if ["" != "$PATCH_FILE"]; then
 fi
 
 cd /usr/src/Python-${VERSION_FULL}
-LDFLAGS="-Wl,-rpath=/usr/local/openssl11/lib" ./configure --prefix=/usr/local/python${VERSION_NO_DOT --with-openssl=/usr/local/openssl11 --with-system-ffi
+LDFLAGS="-Wl,-rpath=/usr/local/openssl11/lib" ./configure --prefix=/usr/local/python${VERSION_NO_DOT} --with-openssl=/usr/local/openssl11 --with-system-ffi
 make altinstall
-ln -s /usr/local/python${VERSION_NO_DOT/bin/*${VERSION_SHORT}* /usr/local/bin
+ln -s /usr/local/python${VERSION_NO_DOT}/bin/*${VERSION_SHORT}* /usr/local/bin
 cd ..
 rm -rf Python-${VERSION_FULL}*
 source /opt/rh/python27/enable
