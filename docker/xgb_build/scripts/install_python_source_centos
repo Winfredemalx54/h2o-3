@@ -10,7 +10,7 @@ VERSION_NO_DOT=$(echo ${VERSION_SHORT} | tr -d .)
 wget https://www.python.org/ftp/python/${VERSION_FULL}/Python-${VERSION_FULL}.tar.xz
 tar -xf Python-${VERSION_FULL}.tar.xz
 
-if ["" != "$PATCH_FILE"]; then
+if [ "" != "$PATCH_FILE" ]; then
     cp -f $PATCH_FILE /usr/src/Python-${VERSION_FULL}/Modules/Setup.dist
 fi
 
